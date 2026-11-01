@@ -75,7 +75,10 @@ npm start
    - Agree to V2.
 8. Click **Print Brief** for the formal production sheet, or **Export JSON** for the complete audit log.
 
-## Next Steps for Hackathon Submission
-- **Live inference smoke test**: Add a funded `YOUCAM_API_KEY` to `.env`, set `ENABLE_LIVE=true`, and run a live test with a consenting model photo and outerwear reference.
+## Verification and Live Inference Status
+- **Live YouCam Clothes V4 Verification**: Confirmed live task creation and polling on `https://yce-api-01.makeupar.com/s2s/v2.0/task/cloth-v4`. Live inference completed with `status: success` and rendered real AI try-on imagery in the application.
+- **Automated Tests**: 16/16 tests passing (`npm test`).
+- **Syntax Check**: All server and client JavaScript files pass syntax checks (`npm run check`).
+- **Browser Visual Layout**: Confirmed on desktop (1280px) and mobile (390px) viewports with live rendering.
 - **Demo video recording**: Follow the 2:40 script in [docs/10-DEMO.md](file:///d:/Downloads/MakerBrief/docs/10-DEMO.md) using the verified collaboration workflow.
 - **Devpost Submission**: Use the outline in [docs/12-SUBMISSION.md](file:///d:/Downloads/MakerBrief/docs/12-SUBMISSION.md).

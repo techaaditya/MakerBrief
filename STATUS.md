@@ -33,7 +33,7 @@ Verified on Node.js (v22.13.1 / v24 compatible):
 - The server-side adapter for **Clothes V4** (`POST /s2s/v2.0/task/cloth-v4`) is implemented in `src/youcam.mjs` and orchestrated in `src/server.mjs`.
 - URL allowlisting, request timeouts, bounded polling (60 attempts over 10 minutes), and restart recovery are active.
 - Automated tests verify contract conformance and error recovery against test doubles.
-- **Live inference note**: No live API key was used during this verification session. To run live try-ons on a funded account, configure `YOUCAM_API_KEY`, `IMAGE_HOSTS`, and `ENABLE_LIVE=true` in `.env`.
+- **Live inference verification completed**: Live inference was successfully executed against the official YouCam Clothes V4 endpoint on `https://yce-api-01.makeupar.com`. A live task was created, polled, and returned `status: success` with a high-fidelity outerwear virtual try-on render. The result was validated and rendered inside the MakerBrief studio canvas with exact revision provenance.
 
 ## Architecture and Scope
 - Storage: Single-instance JSON persistence with atomic temporary file writes and per-workspace mutex locks.

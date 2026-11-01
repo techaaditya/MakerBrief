@@ -193,11 +193,15 @@ export const server = http.createServer(async (req, res) => {
     if (url.pathname.startsWith('/api/')) {
       const cookies = req.headers.cookie || '';
       let id = cookies.match(/(?:^|; )mb=([a-f0-9]{48})(?:;|$)/)?.[1];
-      const newHeaders = {};
+
+      // Support workspace linkage via ?ws=<id> for cross-browser collaboration
+      const paramWs = url.searchParams.get('ws');
+      if (paramWs && /^[a-f0-9]{48}$/.test(paramWs) && fs.existsSync(path.join(dir, paramWs + '.json'))) {
+        id = paramWs;
+      }
 
       if (!id) {
         id = crypto.randomBytes(24).toString('hex');
-        res.setHeader('Set-Cookie', `mb=${id}; HttpOnly; SameSite=Strict; Path=/`);
       }
 
       const s = state(id);
@@ -209,25 +213,22 @@ export const server = http.createServer(async (req, res) => {
       const authHeader = req.headers.authorization || '';
       const bearerToken = authHeader.startsWith('Bearer ') ? authHeader.slice(7).trim() : null;
       const cookieMakerAuth = cookies.match(/(?:^|; )mb_maker_auth=([a-f0-9]{32})(?:;|$)/)?.[1];
-      const cookieBuyerAuth = cookies.match(/(?:^|; )mb_buyer_auth=([a-f0-9]{32})(?:;|$)/)?.[1];
 
       let role = 'buyer'; // default workspace creator is buyer
+      const setCookies = [`mb=${id}; HttpOnly; SameSite=Strict; Path=/`];
+
       if (
         (paramMakerKey && paramMakerKey === s.auth?.makerKey) ||
         (bearerToken && bearerToken === s.auth?.makerKey) ||
         (cookieMakerAuth && cookieMakerAuth === s.auth?.makerKey)
       ) {
         role = 'maker';
-        // Persist maker cookie if accessed via parameter
-        if (paramMakerKey) {
-          res.setHeader('Set-Cookie', [
-            `mb=${id}; HttpOnly; SameSite=Strict; Path=/`,
-            `mb_maker_auth=${s.auth.makerKey}; HttpOnly; SameSite=Strict; Path=/`
-          ]);
-        }
+        setCookies.push(`mb_maker_auth=${s.auth.makerKey}; HttpOnly; SameSite=Strict; Path=/`);
       } else if (paramRole === 'buyer') {
         role = 'buyer';
       }
+
+      res.setHeader('Set-Cookie', setCookies);
 
       // GET /api/state returns current state and computed properties
       if (req.method === 'GET' && url.pathname === '/api/state') {
@@ -235,6 +236,7 @@ export const server = http.createServer(async (req, res) => {
         const { auth, ...publicState } = s;
         return reply(res, 200, {
           ...publicState,
+          workspaceId: id,
           computed,
           options,
           live,

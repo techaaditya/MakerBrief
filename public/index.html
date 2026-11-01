@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="MakerBrief connects personal attire previews with maker-confirmed specifications, structured quotes, and exact-version agreements.">
+  <title>MakerBrief · Bespoke Commission Studio</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header role="banner">
+    <div class="brand-wrap">
+      <a href="/" class="brand" aria-label="MakerBrief Home">m<span aria-hidden="true">✳</span> MakerBrief</a>
+      <span class="tag">THE PERSONAL COMMISSION STUDIO</span>
+    </div>
+    <nav aria-label="Studio Perspectives">
+      <button id="navBuyer" class="active" aria-pressed="true">Buyer Studio</button>
+      <button id="navMaker" aria-pressed="false">Maker Desk <span class="badge" id="roleBadge">Tailor</span></button>
+      <button id="btnShareMaker" title="Copy tailor invitation link with secure access token">Share Maker Link</button>
+      <button id="btnPrint" class="secondary" title="View printable production brief">Print Brief</button>
+      <button id="btnExport" class="secondary" title="Export complete audit trail as JSON">Export JSON</button>
+    </nav>
+  </header>
+
+  <main id="mainContent" role="main">
+    <div class="intro">
+      <div>
+        <p class="eyebrow">FROM PERSONAL PREVIEW TO PRODUCTION SPECIFICATION</p>
+        <h1>Made personal.<br><em>Made clear.</em></h1>
+        <p class="subtitle">
+          Explore your garment direction. Settle construction details with your tailor.<br>
+          Lock in exact-version quotes and specifications before cutting fabric.
+        </p>
+      </div>
+      <aside aria-labelledby="statusSidebarHeading">
+        <h2 id="statusSidebarHeading" class="sr-only">Workspace Status</h2>
+        <div class="workspace-pill">
+          <span class="dot" aria-hidden="true"></span>
+          <strong id="workspaceLabel">Collaborative Commission Workspace</strong>
+        </div>
+        <p id="roleNotice">
+          Currently in <strong>Buyer Studio</strong>. Make specification changes below, or switch to Maker Desk to review and quote.
+        </p>
+        <div class="link-box" id="makerLinkBox">
+          <label for="makerLinkInput">Tailor Review Link:</label>
+          <div class="link-input-group">
+            <input type="text" id="makerLinkInput" readonly value="">
+            <button id="copyMakerLinkBtn" type="button" class="btn-sm">Copy</button>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Alert announcements -->
+    <div id="notice" role="status" aria-live="polite"></div>
+
+    <!-- Primary dynamic application mount -->
+    <div id="root">
+      <div class="loading-state">
+        <p>Loading commission brief workspace...</p>
+      </div>
+    </div>
+
+    <!-- Printable Commission Brief Container (rendered for print / modal) -->
+    <div id="printableBrief" class="printable-brief" style="display: none;"></div>
+
+    <footer role="contentinfo">
+      <div class="footer-meta">
+        <strong>MakerBrief</strong> · Custom-attire commissioning platform. Previews are visual references, not physical fit or construction patterns.
+      </div>
+      <div class="footer-actions">
+        <button id="btnStartFresh" class="btn-text">Start fresh</button>
+        <button id="btnDeleteWorkspace" class="btn-text danger">Delete workspace</button>
+      </div>
+    </footer>
+  </main>
+
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

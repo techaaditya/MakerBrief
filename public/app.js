@@ -269,6 +269,11 @@ function render(isPoll = false) {
               <p class="small">
                 Clothes V4 requires HTTPS URLs for a permissioned full-body photo and an actual garment reference, hosted on approved domains.
               </p>
+              <div style="margin-bottom:10px;">
+                <button type="button" id="btnFillSampleUrls" class="btn-sm secondary">
+                  Load Permitted Sample Photo Pair
+                </button>
+              </div>
               <label>
                 Your Portrait URL (Full body / Upper body):
                 <input id="sourceUrlInput" type="url" placeholder="https://storage.example/model.jpg">
@@ -693,6 +698,20 @@ function bindEvents() {
   const btnSample = document.querySelector('#btnSamplePreview');
   if (btnSample) {
     btnSample.onclick = () => post('preview', { mode: 'sample' });
+  }
+
+  // Pre-fill Sample YouCam Test Pair
+  const btnFillSample = document.querySelector('#btnFillSampleUrls');
+  if (btnFillSample) {
+    btnFillSample.onclick = () => {
+      const srcInput = document.querySelector('#sourceUrlInput');
+      const refInput = document.querySelector('#referenceUrlInput');
+      const consentBox = document.querySelector('#consentCheckbox');
+      if (srcInput) srcInput.value = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80';
+      if (refInput) refInput.value = 'https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=800&q=80';
+      if (consentBox) consentBox.checked = true;
+      notice('Loaded sample test URLs for Unsplash.');
+    };
   }
 
   // Live YouCam Preview

@@ -5,5 +5,4 @@ node_modules/
 *.log
 DEVPOST_SUBMISSION.md
 *.mp4
-video/out/
-video/.remotion/
+video/
